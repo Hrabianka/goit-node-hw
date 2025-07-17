@@ -16,7 +16,6 @@ const listContactsController = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
 const getById = async (req, res) => {
   try {
     const { contactId } = req.params;
