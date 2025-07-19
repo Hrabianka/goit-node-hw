@@ -1,47 +1,31 @@
 
-const { Schema, model } = require("mongoose");
+const Contact = require("./schemas/contact"); 
 
-const contactSchema = new Schema({
-  name: {
-    type: String,
-    required: [true, "Set name for contact"],
-  },
-  email: {
-    type: String,
-  },
-  phone: {
-    type: String,
-  },
-  favorite: {
-    type: Boolean,
-    default: false,
-  },
-});
+const listContacts = async (filter = {}) => {
+  return await Contact.find(filter);
 
-const Contact = model("contact", contactSchema);
-
-const listContacts = async () => {
-  return await Contact.find();
 };
 
 const getContactById = async (contactId) => {
   return await Contact.findById(contactId);
 };
 
-const addContact = async (body) => {
-  return await Contact.create(body);
+const addContact = async (data) => {
+  return await Contact.create(data);
+
 };
 
 const removeContact = async (contactId) => {
   return await Contact.findByIdAndDelete(contactId);
 };
 
-const updateContact = async (contactId, body) => {
-  return await Contact.findByIdAndUpdate(contactId, body, { new: true });
+
+const updateContact = async (contactId, data) => {
+  return await Contact.findByIdAndUpdate(contactId, data, { new: true });
 };
 
-const updateStatusContact = async (contactId, body) => {
-  return await Contact.findByIdAndUpdate(contactId, body, { new: true });
+const updateStatusContact = async (contactId, data) => {
+  return await Contact.findByIdAndUpdate(contactId, data, { new: true });
 
 };
 

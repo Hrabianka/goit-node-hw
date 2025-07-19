@@ -8,9 +8,17 @@ const {
   updateStatusContact,
 } = require("../models/contacts");
 
+
 const listContactsController = async (req, res) => {
   try {
-    const contacts = await listContacts();
+    const { favorite } = req.query;
+
+    let filter = {};
+    if (favorite !== undefined) {
+      filter.favorite = favorite === "true"; 
+    }
+
+    const contacts = await listContacts(filter);
     res.status(200).json(contacts);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -35,7 +43,7 @@ const getById = async (req, res) => {
 const addContactController = async (req, res) => {
   try {
 
-    const { name, email, phone } = req.body;
+    const { name, email, phone, favorite } = req.body;
 
     if (!name || !email || !phone) {
       return res
@@ -43,8 +51,8 @@ const addContactController = async (req, res) => {
         .json({ message: "missing required name - field" });
     }
 
+    const newContact = await addContact({ name, email, phone, favorite });
 
-    const newContact = await addContact({ name, email, phone });
     res.status(201).json(newContact);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -116,7 +124,6 @@ module.exports = {
   addContact: addContactController,
   removeContact: removeContactController,
   updateContact: updateContactController,
-
   updateStatusContactController,
 
 };
