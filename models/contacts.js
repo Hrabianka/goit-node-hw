@@ -1,3 +1,4 @@
+
 const { Schema, model } = require("mongoose");
 
 const contactSchema = new Schema({
@@ -41,6 +42,7 @@ const updateContact = async (contactId, body) => {
 
 const updateStatusContact = async (contactId, body) => {
   return await Contact.findByIdAndUpdate(contactId, body, { new: true });
+
 };
 
 module.exports = {
@@ -51,3 +53,4 @@ module.exports = {
   updateContact,
   updateStatusContact,
 };
+
